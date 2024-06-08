@@ -1,3 +1,5 @@
+const board = document.querySelector('.board');
+
 async function fetchBoard(difficulty) {
   try {
     const response = await fetch(
@@ -13,4 +15,14 @@ async function fetchBoard(difficulty) {
 
 fetchBoard("easy").then((gameBoard) => {
   console.log(gameBoard);
+
+  for (let i = 0; i < gameBoard.length; i++) {
+    const row = document.createElement('tr');
+    for (let j = 0; j < gameBoard[i].length; j++) {
+      const cell = document.createElement('td');
+      cell.textContent = gameBoard[i][j] === 0 ? '' : gameBoard[i][j];
+      row.appendChild(cell);
+    }
+    board.appendChild(row);
+  }
 });
