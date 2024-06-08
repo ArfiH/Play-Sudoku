@@ -20,9 +20,17 @@ fetchBoard("easy").then((gameBoard) => {
     const row = document.createElement('tr');
     for (let j = 0; j < gameBoard[i].length; j++) {
       const cell = document.createElement('td');
+      cell.setAttribute("data-row", `${i}`);
+      cell.setAttribute("data-col", `${j}`);
       cell.textContent = gameBoard[i][j] === 0 ? '' : gameBoard[i][j];
       row.appendChild(cell);
     }
     board.appendChild(row);
   }
 });
+
+board.addEventListener('click', event => {
+    event.preventDefault();
+    console.log(event.target);
+    event.target.classList.add("selected");
+})
