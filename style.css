@@ -1,3 +1,9 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
 body {
   font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
     "Open Sans", "Helvetica Neue", sans-serif;
@@ -10,6 +16,7 @@ h1 {
 .container {
   display: flex;
   flex-direction: column;
+  align-items: center;
 }
 
 .board {
@@ -44,13 +51,16 @@ tr:first-child() {
   background-color: rgb(252, 252, 204);
 }
 
-.dial-pad {
-  margin-inline: auto;
-}
-
-.dial-pad button {
-  padding: 0.4rem 0.6rem;
+button {
+  padding: 0.2rem 0.6rem;
   font: inherit;
   font-size: 20px;
   cursor: pointer;
+  background-color: #fff;
+  color: #000;
+  border-radius: 10px;
+}
+
+.check-btn {
+  margin-top: 1rem;
 }
