@@ -7,9 +7,15 @@ h1 {
   text-align: center;
 }
 
+.container {
+  display: flex;
+  flex-direction: column;
+}
+
 .board {
   border-collapse: collapse;
   margin: 5vmax auto;
+  border: 2px solid #000;
 }
 
 td {
@@ -21,18 +27,30 @@ td {
   cursor: pointer;
 }
 
+td:nth-child(3n) {
+  border-right: 2px solid #000;
+}
+
+tr:nth-child(3n) {
+  border-bottom: 2px solid #000;
+}
+
+tr:first-child() {
+  border: 2px solid #000;
+}
+
+
 .selected {
   background-color: rgb(252, 252, 204);
 }
 
 .dial-pad {
-  max-width: 400px;
   margin-inline: auto;
 }
 
 .dial-pad button {
-  width: 40px;
-  height: 40px;
+  padding: 0.4rem 0.6rem;
+  font: inherit;
   font-size: 20px;
   cursor: pointer;
 }

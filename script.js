@@ -1,5 +1,6 @@
 const board = document.querySelector(".board");
 let selectedCell = null;
+let playboard = [];
 
 async function fetchBoard(difficulty) {
   try {
@@ -7,6 +8,9 @@ async function fetchBoard(difficulty) {
       `https://sugoku.onrender.com/board?difficulty=${difficulty}`
     );
     const data = await response.json();
+    playboard = [...data.board];
+    console.log(`Play Board is ${playboard}`);
+
     return data.board;
   } catch (error) {
     console.error("Error:", error);
@@ -14,8 +18,6 @@ async function fetchBoard(difficulty) {
 }
 
 fetchBoard("easy").then((gameBoard) => {
-  console.log(gameBoard);
-
   for (let i = 0; i < gameBoard.length; i++) {
     const row = document.createElement("tr");
     for (let j = 0; j < gameBoard[i].length; j++) {
