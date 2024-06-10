@@ -39,15 +39,15 @@ async function fetchSolution(board) {
 async function fetchBoard(difficulty) {
   try {
     const response = await fetch(
-      `https://sudoku-api.vercel.app/api/dosuku?query={newboard(limit:1){grids{value,solution,difficulty}}}`
+      `https://sugoku.onrender.com/board?difficulty=${difficulty}`
     );
     const data = await response.json();
-    playboard = [...data.newboard.grids[0].value];
-    solutionBoard = [...data.newboard.grids[0].solution];
-    console.log(data.newboard.grids[0].difficulty);
-    console.log(solutionBoard);
+    playboard = data.board;
     
-    return data.newboard.grids[0].value;
+    //console.log(data.newboard.grids[0].difficulty);
+    //console.log(solutionBoard);
+    
+    return data.board;
   } catch (error) {
     console.error("Error:", error);
   }
@@ -74,7 +74,8 @@ fetchBoard("easy").then((gameBoard) => {
 });
 
 fetchSolution(playboard).then(solution => {
-    console.log(solution);
+    solutionBoard = [...solution];
+    console.log(solutionBoard);
   });
 
 board.addEventListener("click", (event) => {
