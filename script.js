@@ -61,21 +61,19 @@ board.addEventListener("click", (event) => {
       for (let j = 0; j < 9; j++) {
         const cell = board.querySelector("td[data-row=\""+`${i}`+"\"][data-col=\""+`${j}`+"\"]");
         cell.style.backgroundColor = "white";
+        if (!cell.classList.contains("editable")) {
+          cell.style.backgroundColor = "rgb(230, 230, 230)";
+        }
       }
     }
     
     const rowLine = board.querySelectorAll("td[data-row=\""+`${selectedCell.getAttribute('data-row')}`+"\"]");
     const colLine = board.querySelectorAll("td[data-col=\""+`${selectedCell.getAttribute('data-col')}`+"\"]");
     rowLine.forEach(cell => {
-      console.log(cell.style.backgroundColor);
-      if (cell.style.backgroundColor != "rgb(rgb(230, 230, 230))") {
-        cell.style.backgroundColor = "rgb(252, 252, 204)";
-      }
+      cell.style.backgroundColor = "rgb(252, 252, 204)";
     });
     colLine.forEach(cell => {
-      if (cell.style.backgroundColor != "rgb(230, 230, 230)") {
-        cell.style.backgroundColor = "rgb(252, 252, 204)";
-      }
+      cell.style.backgroundColor = "rgb(252, 252, 204)";
     });
   }
 });
