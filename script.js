@@ -34,6 +34,7 @@ fetchBoard("easy").then((gameBoard) => {
         cell.classList.add("editable");
       } else {
         cell.textContent = gameBoard[i][j];
+        cell.style.backgroundColor = "rgb(230, 230, 230)";
       }
       row.appendChild(cell);
     }
@@ -66,13 +67,16 @@ board.addEventListener("click", (event) => {
     const rowLine = board.querySelectorAll("td[data-row=\""+`${selectedCell.getAttribute('data-row')}`+"\"]");
     const colLine = board.querySelectorAll("td[data-col=\""+`${selectedCell.getAttribute('data-col')}`+"\"]");
     rowLine.forEach(cell => {
-      cell.style.backgroundColor = "rgb(252, 252, 204)";
+      console.log(cell.style.backgroundColor);
+      if (cell.style.backgroundColor != "rgb(rgb(230, 230, 230))") {
+        cell.style.backgroundColor = "rgb(252, 252, 204)";
+      }
     });
     colLine.forEach(cell => {
-      cell.style.backgroundColor = "rgb(252, 252, 204)";
+      if (cell.style.backgroundColor != "rgb(230, 230, 230)") {
+        cell.style.backgroundColor = "rgb(252, 252, 204)";
+      }
     });
-    console.log(rowLine);
-    console.log(colLine);
   }
 });
 
@@ -115,9 +119,9 @@ checkBtn.addEventListener("click", () => {
   }
 
   if (correct) {
-    console.log("hurray");
+    console.log("Hurray!");
   } else {
-    console.log("lost");
+    console.log("You Lost!");
   }
   console.log(playboard)
 });
