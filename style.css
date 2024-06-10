@@ -59,7 +59,7 @@ tr:first-child() {
 }
 
 td.selected {
-  background-color: rgb(215, 215, 215);
+  background-color: rgb(205, 205, 205);
 }
 
 button {
@@ -97,4 +97,7 @@ button {
 
 .check-btn p {
   text-align: center;
+  margin-top: 1rem;
+  font-weight: bold;
+  font-size: large;
 }

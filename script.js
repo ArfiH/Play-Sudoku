@@ -4,8 +4,8 @@ const dialPad = document.querySelector(".dial-pad");
 let selectedCell = null;
 let playboard = [];
 let solutionBoard = [];
-const grayColor = "rgb(190, 190, 190)";
-const selectedGroupColor = "rgb(215, 215, 215)";
+const grayColor = "rgb(180, 180, 180)";
+const selectedGroupColor = "rgb(205, 205, 205)";
 
 function encodeParams(params) {
   const data = [];
@@ -43,7 +43,6 @@ async function fetchBoard(difficulty) {
     );
     const data = await response.json();
     playboard = data.board;
-    console.log(playboard);
     return data.board;
   } catch (error) {
     console.error("Error:", error);
@@ -72,7 +71,6 @@ fetchBoard("easy").then((gameBoard) => {
 
 fetchSolution(playboard).then(solution => {
     solutionBoard = [...solution];
-    console.log(solutionBoard);
   });
 
 board.addEventListener("click", (event) => {
