@@ -53,7 +53,26 @@ board.addEventListener("click", (event) => {
     selectedCell = event.target;
     selectedCell.classList.add("selected");
     selectedCell.contentEditable = true;
-    selectedCell.focus();
+    selectedCell.focus();    
+    
+    // remove previous selection
+    for (let i = 0; i < 9; i++) {
+      for (let j = 0; j < 9; j++) {
+        const cell = board.querySelector("td[data-row=\""+`${i}`+"\"][data-col=\""+`${j}`+"\"]");
+        cell.style.backgroundColor = "white";
+      }
+    }
+    
+    const rowLine = board.querySelectorAll("td[data-row=\""+`${selectedCell.getAttribute('data-row')}`+"\"]");
+    const colLine = board.querySelectorAll("td[data-col=\""+`${selectedCell.getAttribute('data-col')}`+"\"]");
+    rowLine.forEach(cell => {
+      cell.style.backgroundColor = "rgb(252, 252, 204)";
+    });
+    colLine.forEach(cell => {
+      cell.style.backgroundColor = "rgb(252, 252, 204)";
+    });
+    console.log(rowLine);
+    console.log(colLine);
   }
 });
 
