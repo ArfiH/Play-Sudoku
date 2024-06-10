@@ -7,6 +7,35 @@ let solutionBoard = [];
 const grayColor = "rgb(209, 209, 209)";
 const selectedGroupColor = "rgb(235, 235, 235)";
 
+function encodeParams(params) {
+  const data = [];
+  for (const key in params) {
+    const value = params[key];
+    if (Array.isArray(value)) {
+      value.forEach((val, i) => {
+        data.push(`${encodeURIComponent(key)}[${i}]=${encodeURIComponent(val)}`);
+      });
+    } else {
+      data.push(`${encodeURIComponent(key)}=${encodeURIComponent(value)}`);
+    }
+  }
+  return data.join('&');
+}
+
+async function fetchSolution(board) {
+  try {
+    const response = await fetch('https://sugoku.onrender.com/solve', {
+      method: 'POST',
+      body: encodeParams({ board }),
+      headers: { 'Content-Type': 'application/x-www-form-urlencoded' }
+    });
+    const data = await response.json();
+    return data.solution;
+  } catch (error) {
+    console.error("Error:", error);
+  }
+}
+
 async function fetchBoard(difficulty) {
   try {
     const response = await fetch(
@@ -43,6 +72,10 @@ fetchBoard("easy").then((gameBoard) => {
     board.appendChild(row);
   }
 });
+
+fetchSolution(playboard).then(solution => {
+    console.log(solution);
+  });
 
 board.addEventListener("click", (event) => {
   if (
