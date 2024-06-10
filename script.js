@@ -81,13 +81,11 @@ board.addEventListener("click", (event) => {
   ) {
     if (selectedCell) {
       selectedCell.classList.remove("selected");
-      selectedCell.style.border = "none";
       selectedCell.contentEditable = false;
     }
     selectedCell = event.target;
     selectedCell.classList.add("selected");
     selectedCell.contentEditable = true;
-    selectedCell.style.border = "2px solid black";
     // selectedCell.focus();    
     
     // remove previous selection
@@ -132,7 +130,16 @@ board.addEventListener("keydown", (event) => {
 });
 
 dialPad.addEventListener("click", (event) => {
-  if (selectedCell && event.target.tagName === "BUTTON") {
+  if (selectedCell && event.target.tagName === "BUTTON" && event.target.textContent === "Clear") {
+    selectedCell.textContent = '';
+    playboard[selectedCell.getAttribute("data-row")][
+      selectedCell.getAttribute("data-col")
+    ] = 0;
+    console.log(`Play Board is ${playboard}`);
+    selectedCell.classList.remove("selected");
+    selectedCell = null;
+  }
+  else if (selectedCell && event.target.tagName === "BUTTON") {
     selectedCell.textContent = event.target.textContent;
     playboard[selectedCell.getAttribute("data-row")][
       selectedCell.getAttribute("data-col")
