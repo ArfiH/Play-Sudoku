@@ -86,7 +86,8 @@ board.addEventListener("click", (event) => {
     selectedCell = event.target;
     selectedCell.classList.add("selected");
     selectedCell.contentEditable = true;
-    // selectedCell.focus();    
+    // selectedCell.focus();   
+    selectedCell.tabIndex = 0; // Make cell focusable 
     
     // remove previous selection
     for (let i = 0; i < 9; i++) {
