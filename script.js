@@ -4,6 +4,7 @@ const dialPad = document.querySelector(".dial-pad");
 let selectedCell = null;
 let playboard = [];
 let solutionBoard = [];
+const grayColor = "rgb(230, 230, 230)";
 
 async function fetchBoard(difficulty) {
   try {
@@ -34,7 +35,7 @@ fetchBoard("easy").then((gameBoard) => {
         cell.classList.add("editable");
       } else {
         cell.textContent = gameBoard[i][j];
-        cell.style.backgroundColor = "rgb(230, 230, 230)";
+        cell.style.backgroundColor = grayColor;
       }
       row.appendChild(cell);
     }
@@ -62,7 +63,7 @@ board.addEventListener("click", (event) => {
         const cell = board.querySelector("td[data-row=\""+`${i}`+"\"][data-col=\""+`${j}`+"\"]");
         cell.style.backgroundColor = "white";
         if (!cell.classList.contains("editable")) {
-          cell.style.backgroundColor = "rgb(230, 230, 230)";
+          cell.style.backgroundColor = grayColor;
         }
       }
     }
