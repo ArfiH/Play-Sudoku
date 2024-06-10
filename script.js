@@ -125,9 +125,11 @@ checkBtn.addEventListener("click", () => {
   }
 
   if (correct) {
-    console.log("Hurray!");
+    console.log("You won!");
+    document.querySelector('.status').innerHTML = "You Won!";
   } else {
     console.log("You Lost!");
+    document.querySelector('.status').innerHTML = "Incorrect!<br>Try again";
   }
   console.log(playboard)
 });
