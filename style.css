@@ -59,7 +59,7 @@ tr:first-child() {
 }
 
 td.selected {
-  background-color: rgb(235, 235, 235);
+  background-color: rgb(215, 215, 215);
 }
 
 button {

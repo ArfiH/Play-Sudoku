@@ -4,8 +4,8 @@ const dialPad = document.querySelector(".dial-pad");
 let selectedCell = null;
 let playboard = [];
 let solutionBoard = [];
-const grayColor = "rgb(209, 209, 209)";
-const selectedGroupColor = "rgb(235, 235, 235)";
+const grayColor = "rgb(190, 190, 190)";
+const selectedGroupColor = "rgb(215, 215, 215)";
 
 function encodeParams(params) {
   const data = [];
@@ -43,10 +43,7 @@ async function fetchBoard(difficulty) {
     );
     const data = await response.json();
     playboard = data.board;
-    
-    //console.log(data.newboard.grids[0].difficulty);
-    //console.log(solutionBoard);
-    
+    console.log(playboard);
     return data.board;
   } catch (error) {
     console.error("Error:", error);
