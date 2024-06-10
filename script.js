@@ -4,7 +4,8 @@ const dialPad = document.querySelector(".dial-pad");
 let selectedCell = null;
 let playboard = [];
 let solutionBoard = [];
-const grayColor = "rgb(230, 230, 230)";
+const grayColor = "rgb(209, 209, 209)";
+const selectedGroupColor = "rgb(235, 235, 235)";
 
 async function fetchBoard(difficulty) {
   try {
@@ -71,10 +72,16 @@ board.addEventListener("click", (event) => {
     const rowLine = board.querySelectorAll("td[data-row=\""+`${selectedCell.getAttribute('data-row')}`+"\"]");
     const colLine = board.querySelectorAll("td[data-col=\""+`${selectedCell.getAttribute('data-col')}`+"\"]");
     rowLine.forEach(cell => {
-      cell.style.backgroundColor = "rgb(252, 252, 204)";
+      cell.style.backgroundColor = selectedGroupColor;
+      if (!cell.classList.contains("editable")) {
+        cell.style.backgroundColor = grayColor;
+      }
     });
     colLine.forEach(cell => {
-      cell.style.backgroundColor = "rgb(252, 252, 204)";
+      cell.style.backgroundColor = selectedGroupColor;
+      if (!cell.classList.contains("editable")) {
+        cell.style.backgroundColor = grayColor;
+      }
     });
   }
 });

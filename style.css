@@ -6,6 +6,7 @@
 
 body {
   font-family: "Open Sans", sans-serif;
+  background-color: #f0f0f0;
 }
 
 header {
@@ -33,14 +34,16 @@ h1 {
 td {
   width: 2.5rem;
   height: 2.5rem;
-  border: 1px solid #7c7c7c;
+  border: 1px solid rgb(120, 120, 120);
   text-align: center;
   font-size: 20px;
   user-select: none;
+  transition: background-color 0.3s;
 }
 
-.editable {
+td.editable {
   cursor: pointer;
+  color: #3f51b5;
 }
 
 td:nth-child(3n) {
@@ -55,8 +58,8 @@ tr:first-child() {
   border: 2px solid #000;
 }
 
-.selected {
-  background-color: rgb(252, 252, 204);
+td.selected {
+  background-color: rgb(235, 235, 235);
 }
 
 button {
@@ -69,6 +72,25 @@ button {
   border-radius: 10px;
 }
 
-.check-btn {
+.dial-pad button {
+  font-size: 24px;
+  background-color: #fff;
+  border: 1px solid #ccc;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.dial-pad button:hover {
+  background-color: #ddd;
+}
+
+.check-btn button{
   margin-top: 1rem;
+  transition: background-color 0.3s;
+  border: 1px solid #ccc;
+}
+
+.check-btn button:hover {
+  background-color: black;
+  color: white;
 }

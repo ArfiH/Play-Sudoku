@@ -1,0 +1,71 @@
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    font-family: 'Arial', sans-serif;
+  }
+  
+  body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background-color: #f0f0f0;
+  }
+  
+  .container {
+    text-align: center;
+  }
+  
+  h1 {
+    margin-bottom: 20px;
+    font-size: 36px;
+    color: #333;
+  }
+  
+  table {
+    border-collapse: collapse;
+    margin: 0 auto 20px;
+  }
+  
+  td {
+    width: 40px;
+    height: 40px;
+    border: 1px solid #ccc;
+    text-align: center;
+    font-size: 24px;
+    cursor: pointer;
+    background-color: #fff;
+    transition: background-color 0.3s;
+  }
+  
+  td.selected {
+    background-color: #ffeb3b;
+  }
+  
+  .dial-pad {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
+    max-width: 120px;
+    margin: 0 auto;
+  }
+  
+  .dial-pad button {
+    width: 40px;
+    height: 40px;
+    font-size: 24px;
+    background-color: #fff;
+    border: 1px solid #ccc;
+    cursor: pointer;
+    transition: background-color 0.3s;
+  }
+  
+  .dial-pad button:hover {
+    background-color: #ddd;
+  }
+  
+  td.editable {
+    color: #3f51b5;
+  }
+  
