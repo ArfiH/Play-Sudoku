@@ -30,6 +30,7 @@ async function fetchSolution(board) {
       headers: { 'Content-Type': 'application/x-www-form-urlencoded' }
     });
     const data = await response.json();
+    console.log(data.solution);
     return data.solution;
   } catch (error) {
     console.error("Error:", error);
@@ -80,12 +81,14 @@ board.addEventListener("click", (event) => {
   ) {
     if (selectedCell) {
       selectedCell.classList.remove("selected");
+      selectedCell.style.border = "none";
       selectedCell.contentEditable = false;
     }
     selectedCell = event.target;
     selectedCell.classList.add("selected");
     selectedCell.contentEditable = true;
-    selectedCell.focus();    
+    selectedCell.style.border = "2px solid black";
+    // selectedCell.focus();    
     
     // remove previous selection
     for (let i = 0; i < 9; i++) {
