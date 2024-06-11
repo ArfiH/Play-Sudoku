@@ -84,18 +84,18 @@ button {
   background-color: #ddd;
 }
 
-.check-btn button{
+.btns button{
   margin-top: 1rem;
   transition: background-color 0.3s;
   border: 1px solid #ccc;
 }
 
-.check-btn button:hover {
+.btns button:hover {
   background-color: black;
   color: white;
 }
 
-.check-btn p {
+.btns p {
   text-align: center;
   margin-top: 1rem;
   font-weight: bold;

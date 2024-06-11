@@ -34,7 +34,6 @@ async function initGame(difficulty) {
   await fetchBoard(difficulty).then((gameBoard) => {
     displayBoard(gameBoard);
   });
-  console.log(board)
 }
 
 function displayBoard(gameBoard) {
@@ -153,10 +152,12 @@ checkBtn.addEventListener("click", () => {
     document.querySelector('.status').innerHTML = "You Won!";
   } else {
     console.log("You Lost!");
-    document.querySelector('.status').innerHTML = "Incorrect!<br>Try again";
+    document.querySelector('.status').innerHTML = 'Incorrect!<br>Try again';
+    setTimeout(() => {
+      document.querySelector('.status').innerHTML =     "";
+    }, 1000);
   }
   console.log(playboard)
 });
 
-initGame("easy");
 initGame("easy");
