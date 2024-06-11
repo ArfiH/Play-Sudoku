@@ -170,7 +170,9 @@ helpBtn.addEventListener('click', event => {
       }
     }
   }
-  console.log(diff)
+  let radomIndex = Math.floor(Math.random()*diff.length);
+  let reveal = diff.splice(radomIndex, 1);
+  console.log(reveal);
 });
 
 initGame("easy");
