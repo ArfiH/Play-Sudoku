@@ -1,5 +1,6 @@
 const board = document.querySelector(".board");
 const checkBtn = document.querySelector(".check-btn");
+const helpBtn = document.querySelector(".help-btn");
 const dialPad = document.querySelector(".dial-pad");
 let selectedCell = null;
 let playboard = [];
@@ -158,6 +159,18 @@ checkBtn.addEventListener("click", () => {
     }, 1000);
   }
   console.log(playboard)
+});
+
+helpBtn.addEventListener('click', event => {
+  let diff = [];
+  for (let i = 0; i < 9; i++) {
+    for (let j = 0; j < 9; j++) {
+      if (playboard[i][j] !== solutionBoard[i][j]) {
+        diff.push({row: i, col: j, val: solutionBoard[i][j]});
+      }
+    }
+  }
+  console.log(diff)
 });
 
 initGame("easy");
