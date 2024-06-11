@@ -4,47 +4,21 @@ const dialPad = document.querySelector(".dial-pad");
 let selectedCell = null;
 let playboard = [];
 let solutionBoard = [];
-const grayColor = "rgb(180, 180, 180)";
-const selectedGroupColor = "rgb(205, 205, 205)";
-
-function encodeParams(params) {
-  const data = [];
-  for (const key in params) {
-    const value = params[key];
-    if (Array.isArray(value)) {
-      value.forEach((val, i) => {
-        data.push(`${encodeURIComponent(key)}[${i}]=${encodeURIComponent(val)}`);
-      });
-    } else {
-      data.push(`${encodeURIComponent(key)}=${encodeURIComponent(value)}`);
-    }
-  }
-  return data.join('&');
-}
-
-async function fetchSolution(board) {
-  try {
-    const response = await fetch('https://sugoku.onrender.com/solve', {
-      method: 'POST',
-      body: encodeParams({ board }),
-      headers: { 'Content-Type': 'application/x-www-form-urlencoded' }
-    });
-    const data = await response.json();
-    console.log(data.solution);
-    return data.solution;
-  } catch (error) {
-    console.error("Error:", error);
-  }
-}
+const grayColor = "rgb(209, 209, 209)";
+const selectedGroupColor = "rgb(235, 235, 235)";
 
 async function fetchBoard(difficulty) {
   try {
     const response = await fetch(
-      `https://sugoku.onrender.com/board?difficulty=${difficulty}`
+      `https://sudoku-api.vercel.app/api/dosuku?query={newboard(limit:1){grids{value,solution,difficulty}}}`
     );
     const data = await response.json();
-    playboard = data.board;
-    return data.board;
+    playboard = [...data.newboard.grids[0].value];
+    solutionBoard = [...data.newboard.grids[0].solution];
+    console.log(data.newboard.grids[0].difficulty);
+    console.log(solutionBoard);
+    
+    return data.newboard.grids[0].value;
   } catch (error) {
     console.error("Error:", error);
   }
@@ -70,10 +44,6 @@ fetchBoard("easy").then((gameBoard) => {
   }
 });
 
-fetchSolution(playboard).then(solution => {
-    solutionBoard = [...solution];
-  });
-
 board.addEventListener("click", (event) => {
   if (
     event.target.tagName === "TD" &&
@@ -86,8 +56,8 @@ board.addEventListener("click", (event) => {
     selectedCell = event.target;
     selectedCell.classList.add("selected");
     selectedCell.contentEditable = true;
-    // selectedCell.focus();   
-    selectedCell.tabIndex = 0; // Make cell focusable 
+    //selectedCell.focus();    
+    selectedCell.tabIndex = 0;
     
     // remove previous selection
     for (let i = 0; i < 9; i++) {
@@ -131,16 +101,7 @@ board.addEventListener("keydown", (event) => {
 });
 
 dialPad.addEventListener("click", (event) => {
-  if (selectedCell && event.target.tagName === "BUTTON" && event.target.textContent === "Clear") {
-    selectedCell.textContent = '';
-    playboard[selectedCell.getAttribute("data-row")][
-      selectedCell.getAttribute("data-col")
-    ] = 0;
-    console.log(`Play Board is ${playboard}`);
-    selectedCell.classList.remove("selected");
-    selectedCell = null;
-  }
-  else if (selectedCell && event.target.tagName === "BUTTON") {
+  if (selectedCell && event.target.tagName === "BUTTON") {
     selectedCell.textContent = event.target.textContent;
     playboard[selectedCell.getAttribute("data-row")][
       selectedCell.getAttribute("data-col")
