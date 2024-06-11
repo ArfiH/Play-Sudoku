@@ -140,11 +140,13 @@ checkBtn.addEventListener("click", () => {
   if (playboard.length != solutionBoard.length) {
     correct = false;
   } else {
-    for (let i = 0; i < playboard.length; i++) {
-      if (playboard[i] !== solutionBoard[i]) {
-        correct = false;
-        break;
-      }
+    for (let i = 0; i < 9; i++) {
+        for(let j = 0; j < 9; j++) {
+          if (playboard[i][j] !== solutionBoard[i][j]) {
+            correct = false;
+            break;
+          }
+        }
     }
   }
 
