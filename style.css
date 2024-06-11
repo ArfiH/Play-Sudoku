@@ -101,3 +101,19 @@ button {
   font-weight: bold;
   font-size: large;
 }
+
+.help-btn.shake:hover {
+    animation: shake 200ms linear;
+}
+
+@keyframes shake {
+    0% {
+        transform: translateX(5px);
+    }
+    50% {
+        transform: translateX(-5px);
+    }
+    100% {
+        transform: translateY(0px);
+    }
+}

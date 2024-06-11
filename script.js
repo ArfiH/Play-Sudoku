@@ -7,6 +7,7 @@ let playboard = [];
 let solutionBoard = [];
 const grayColor = "rgb(180, 180, 180)";
 const selectedGroupColor = "rgb(205, 205, 205)";
+const helpCount = document.querySelector('.help-count');
 
 async function fetchBoard(difficulty) {
   try {
@@ -19,6 +20,13 @@ async function fetchBoard(difficulty) {
     console.log(data.newboard.grids[0].difficulty);
     console.log(solutionBoard);
     
+    if (data.newboard.grids[0].difficulty == "Hard") {
+        helpCount.innerHTML = 15;
+    } else if (data.newboard.grids[0].difficulty == "Medium") {
+        helpCount.innerHTML = 10;
+    } else {
+        helpCount.innerHTML = 5;
+    }
     return data.newboard.grids[0].value;
   } catch (error) {
     console.error("Error:", error);
@@ -31,6 +39,7 @@ async function initGame(difficulty) {
   playboard = [];
   solutionBoard = [];
   board.innerHTML = '';
+  helpBtn.classList.remove('shake');
   
   await fetchBoard(difficulty).then((gameBoard) => {
     displayBoard(gameBoard);
@@ -39,6 +48,7 @@ async function initGame(difficulty) {
 
 function displayBoard(gameBoard) {
   board.innerHTML = '';
+  
   for (let i = 0; i < gameBoard.length; i++) {
       const row = document.createElement("tr");
       for (let j = 0; j < gameBoard[i].length; j++) {
@@ -164,6 +174,11 @@ checkBtn.addEventListener("click", () => {
 });
 
 helpBtn.addEventListener('click', event => {
+  if (Number(helpCount.innerHTML) <= 0) {
+    helpBtn.classList.toggle('shake');
+    return;
+  }
+  helpCount.innerHTML = Number(helpCount.innerHTML) - 1;
   let diff = [];
   for (let i = 0; i < 9; i++) {
     for (let j = 0; j < 9; j++) {
@@ -183,4 +198,5 @@ helpBtn.addEventListener('click', event => {
       ] = reveal[0].val;
 });
 
+initGame("easy");
 initGame("easy");
