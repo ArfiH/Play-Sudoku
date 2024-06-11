@@ -24,25 +24,39 @@ async function fetchBoard(difficulty) {
   }
 }
 
-fetchBoard("easy").then((gameBoard) => {
+async function initGame(difficulty) {
+  // reset board and solution and game status
+  selectedCell = null;
+  playboard = [];
+  solutionBoard = [];
+  board.innerHTML = '';
+  
+  await fetchBoard(difficulty).then((gameBoard) => {
+    displayBoard(gameBoard);
+  });
+  console.log(board)
+}
+
+function displayBoard(gameBoard) {
+  board.innerHTML = '';
   for (let i = 0; i < gameBoard.length; i++) {
-    const row = document.createElement("tr");
-    for (let j = 0; j < gameBoard[i].length; j++) {
-      const cell = document.createElement("td");
-      cell.setAttribute("data-row", `${i}`);
-      cell.setAttribute("data-col", `${j}`);
-      if (gameBoard[i][j] === 0) {
-        cell.textContent = "";
-        cell.classList.add("editable");
-      } else {
-        cell.textContent = gameBoard[i][j];
-        cell.style.backgroundColor = grayColor;
+      const row = document.createElement("tr");
+      for (let j = 0; j < gameBoard[i].length; j++) {
+        const cell = document.createElement("td");
+        cell.setAttribute("data-row", `${i}`);
+        cell.setAttribute("data-col", `${j}`);
+        if (gameBoard[i][j] === 0) {
+          cell.textContent = "";
+          cell.classList.add("editable");
+        } else {
+          cell.textContent = gameBoard[i][j];
+          cell.style.backgroundColor = grayColor;
+        }
+        row.appendChild(cell);
       }
-      row.appendChild(cell);
+      board.appendChild(row);
     }
-    board.appendChild(row);
-  }
-});
+}
 
 board.addEventListener("click", (event) => {
   if (
@@ -57,7 +71,7 @@ board.addEventListener("click", (event) => {
     selectedCell.classList.add("selected");
     selectedCell.contentEditable = true;
     //selectedCell.focus();    
-    selectedCell.tabIndex = 0;
+    //selectedCell.tabIndex = 0;
     
     // remove previous selection
     for (let i = 0; i < 9; i++) {
@@ -102,10 +116,19 @@ board.addEventListener("keydown", (event) => {
 
 dialPad.addEventListener("click", (event) => {
   if (selectedCell && event.target.tagName === "BUTTON") {
-    selectedCell.textContent = event.target.textContent;
-    playboard[selectedCell.getAttribute("data-row")][
-      selectedCell.getAttribute("data-col")
-    ] = Number(event.target.textContent);
+    
+    if (event.target.textContent === 'Clear') {
+      selectedCell.textContent = '';
+      playboard[selectedCell.getAttribute("data-row")][
+        selectedCell.getAttribute("data-col")
+      ] = 0;
+    }
+    else {
+      selectedCell.textContent = event.target.textContent;
+      playboard[selectedCell.getAttribute("data-row")][
+        selectedCell.getAttribute("data-col")
+      ] = Number(event.target.textContent);
+    }
     console.log(`Play Board is ${playboard}`);
     selectedCell.classList.remove("selected");
     selectedCell = null;
@@ -134,3 +157,6 @@ checkBtn.addEventListener("click", () => {
   }
   console.log(playboard)
 });
+
+initGame("easy");
+initGame("easy");
