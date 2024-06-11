@@ -5,8 +5,8 @@ const dialPad = document.querySelector(".dial-pad");
 let selectedCell = null;
 let playboard = [];
 let solutionBoard = [];
-const grayColor = "rgb(209, 209, 209)";
-const selectedGroupColor = "rgb(235, 235, 235)";
+const grayColor = "rgb(180, 180, 180)";
+const selectedGroupColor = "rgb(205, 205, 205)";
 
 async function fetchBoard(difficulty) {
   try {
@@ -170,9 +170,15 @@ helpBtn.addEventListener('click', event => {
       }
     }
   }
-  let radomIndex = Math.floor(Math.random()*diff.length);
-  let reveal = diff.splice(radomIndex, 1);
+  let randomIndex = Math.floor(Math.random()*diff.length);
+  let reveal = diff.splice(randomIndex, 1);
   console.log(reveal);
+ 
+  selectedCell = board.querySelector("td[data-row=\"" + `${reveal[0].row}` + "\"][data-col=\"" + `${reveal[0].col}` + "\"]");
+  selectedCell.textContent = reveal[0].val;
+  playboard[selectedCell.getAttribute("data-row")][
+        selectedCell.getAttribute("data-col")
+      ] = reveal[0].val;
 });
 
 initGame("easy");
