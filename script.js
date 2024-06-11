@@ -80,7 +80,7 @@ board.addEventListener("click", (event) => {
     }
     selectedCell = event.target;
     selectedCell.classList.add("selected");
-    selectedCell.contentEditable = true;
+    //selectedCell.contentEditable = true;
     //selectedCell.focus();    
     //selectedCell.tabIndex = 0;
     
