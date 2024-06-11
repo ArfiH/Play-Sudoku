@@ -8,6 +8,7 @@ let solutionBoard = [];
 const grayColor = "rgb(180, 180, 180)";
 const selectedGroupColor = "rgb(205, 205, 205)";
 const helpCount = document.querySelector('.help-count');
+const newBtn = document.querySelector('.new-btn');
 
 async function fetchBoard(difficulty) {
   try {
@@ -198,5 +199,8 @@ helpBtn.addEventListener('click', event => {
       ] = reveal[0].val;
 });
 
-initGame("easy");
+newBtn.addEventListener('click', event => {
+    initGame("easy");
+});
+
 initGame("easy");
