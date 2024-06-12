@@ -204,7 +204,7 @@ checkBtn.addEventListener("click", () => {
   }
   setTimeout(() => {
     document.querySelector('.status').innerHTML = "";
-  }, 1000);
+  }, 2000);
   
   console.log(playboard)
 });
