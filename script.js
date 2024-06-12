@@ -5,8 +5,8 @@ const dialPad = document.querySelector(".dial-pad");
 let selectedCell = null;
 let playboard = [];
 let solutionBoard = [];
-const grayColor = "rgb(180, 180, 180)";
-const selectedGroupColor = "rgb(205, 205, 205)";
+const grayColor = "rgb(140, 170, 210)";
+const selectedGroupColor = "rgb(190, 210, 230)";
 const helpCount = document.querySelector('.help-count');
 const newBtn = document.querySelector('.new-btn');
 
@@ -22,7 +22,7 @@ async function fetchBoard(difficulty) {
     console.log(solutionBoard);
     
     if (data.newboard.grids[0].difficulty == "Hard") {
-        helpCount.innerHTML = 75;
+        helpCount.innerHTML = 15;
     } else if (data.newboard.grids[0].difficulty == "Medium") {
         helpCount.innerHTML = 10;
     } else {
@@ -184,7 +184,8 @@ checkBtn.addEventListener("click", () => {
   
   correct = isValidSudoku(playboard);
   if (correct) {
-    document.querySelector('.status').innerHTML = "You won!";  
+    document.querySelector('.status').innerHTML = "You won!";
+    setTimeout(() => initGame("easy"), 2100);    
   } else {
       document.querySelector('.status').innerHTML = "Incorrect";
   }
