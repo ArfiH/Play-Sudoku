@@ -24,14 +24,9 @@ async function fetchBoard(difficulty) {
     console.log(data.newboard.grids[0].difficulty);
     console.log(solutionBoard);
     
-    if (data.newboard.grids[0].difficulty == "Hard") {
-        helpCount.innerHTML = 15;
-    } else if (data.newboard.grids[0].difficulty == "Medium") {
-        helpCount.innerHTML = 10;
-    } else {
-        helpCount.innerHTML = 5;
-    }
-    return data.newboard.grids[0].value;
+    helpCount.innerHTML = 5;
+    
+    return data.newboard.grids[0];
   } catch (error) {
     console.error("Error:", error);
   }
@@ -46,13 +41,16 @@ async function initGame(difficulty) {
   helpBtn.classList.remove('shake');
   
   await fetchBoard(difficulty).then((gameBoard) => {
-    displayBoard(gameBoard);
+    displayBoard(gameBoard, difficulty);
   });
 }
 
-function displayBoard(gameBoard) {
+function displayBoard(gameBoard, wantedDifficulty) {
   board.innerHTML = '';
+  let difficulty = gameBoard.difficulty;
   
+  gameBoard = gameBoard.value;
+
   for (let i = 0; i < gameBoard.length; i++) {
       const row = document.createElement("tr");
       for (let j = 0; j < gameBoard[i].length; j++) {
@@ -69,6 +67,18 @@ function displayBoard(gameBoard) {
         row.appendChild(cell);
       }
       board.appendChild(row);
+    }
+    if (wantedDifficulty === "Easy") {
+        if (difficulty === "Hard") {
+            revealCells(15);
+        } else if (difficulty === "Medium") {
+            revealCells(10);
+        }
+    }
+    else if (wantedDifficulty === "Medium") {
+        if (difficulty === "Hard") {
+            revealCells(10);
+        }
     }
 }
 
@@ -103,6 +113,31 @@ function isValidSudoku(playboard) {
   return true;
 }
 
+function revealCells(num) {
+  let diff = [];
+  for (let i = 0; i < 9; i++) {
+    for (let j = 0; j < 9; j++) {
+      if (playboard[i][j] !== solutionBoard[i][j]) {
+        diff.push({row: i, col: j, val: solutionBoard[i][j]});
+      }
+    }
+  }
+  
+  for (let i = 0; i < num && diff.length > 0; i++) {
+      let randomIndex = Math.floor(Math.random()*diff.length);
+      let reveal = diff.splice(randomIndex, 1);
+      console.log(reveal);
+     
+      selectedCell = board.querySelector("td[data-row=\"" + `${reveal[0].row}` + "\"][data-col=\"" + `${reveal[0].col}` + "\"]");
+      selectedCell.textContent = reveal[0].val;
+      playboard[selectedCell.getAttribute("data-row")][
+            selectedCell.getAttribute("data-col")
+          ] = reveal[0].val;
+      
+      selectedCell.classList.remove("editable");
+      selectedCell.style.backgroundColor = grayColor;
+      }
+}
 
 board.addEventListener("click", (event) => {
   if (
@@ -160,7 +195,7 @@ dialPad.addEventListener("click", (event) => {
         selectedCell.getAttribute("data-col")
       ] = 0;
     }
-    else {
+    else if (event.target.textContent !== '') {
       selectedCell.textContent = event.target.textContent;
       playboard[selectedCell.getAttribute("data-row")][
         selectedCell.getAttribute("data-col")
@@ -199,26 +234,7 @@ helpBtn.addEventListener('click', event => {
     return;
   }
   helpCount.innerHTML = Number(helpCount.innerHTML) - 1;
-  let diff = [];
-  for (let i = 0; i < 9; i++) {
-    for (let j = 0; j < 9; j++) {
-      if (playboard[i][j] !== solutionBoard[i][j]) {
-        diff.push({row: i, col: j, val: solutionBoard[i][j]});
-      }
-    }
-  }
-  let randomIndex = Math.floor(Math.random()*diff.length);
-  let reveal = diff.splice(randomIndex, 1);
-  console.log(reveal);
- 
-  selectedCell = board.querySelector("td[data-row=\"" + `${reveal[0].row}` + "\"][data-col=\"" + `${reveal[0].col}` + "\"]");
-  selectedCell.textContent = reveal[0].val;
-  playboard[selectedCell.getAttribute("data-row")][
-        selectedCell.getAttribute("data-col")
-      ] = reveal[0].val;
-  
-  selectedCell.classList.remove("editable");
-  selectedCell.style.backgroundColor = grayColor;
+  revealCells(1);
 });
 
 newBtn.addEventListener('click', event => {
@@ -236,4 +252,4 @@ undoBtn.addEventListener('click', event => {
     }
 });
 
-initGame("easy");
+initGame("Easy");
