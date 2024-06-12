@@ -2,9 +2,12 @@ const board = document.querySelector(".board");
 const checkBtn = document.querySelector(".check-btn");
 const helpBtn = document.querySelector(".help-btn");
 const dialPad = document.querySelector(".dial-pad");
+const undoBtn = document.querySelector(".undo-btn");
+
 let selectedCell = null;
 let playboard = [];
 let solutionBoard = [];
+let actions = [];
 const grayColor = "rgb(140, 170, 210)";
 const selectedGroupColor = "rgb(190, 210, 230)";
 const helpCount = document.querySelector('.help-count');
@@ -144,21 +147,12 @@ board.addEventListener("click", (event) => {
   }
 });
 
-board.addEventListener("keydown", (event) => {
-  if (selectedCell && event.key >= "1" && event.key <= "9") {
-    event.preventDefault();
-    selectedCell.textContent = event.key;
-    playboard[selectedCell.getAttribute("data-row")][
-      selectedCell.getAttribute("data-col")
-    ] = Number(event.key);
-    selectedCell.classList.remove("selected");
-    selectedCell.contentEditable = false;
-    selectedCell = null;
-  }
-});
 
 dialPad.addEventListener("click", (event) => {
   if (selectedCell && event.target.tagName === "BUTTON") {
+    
+    // update actions array
+    actions.push({row: selectedCell.getAttribute("data-row"), col: selectedCell.getAttribute("data-col"), old: selectedCell.textContent});
     
     if (event.target.textContent === '◀') {
       selectedCell.textContent = '';
@@ -173,8 +167,11 @@ dialPad.addEventListener("click", (event) => {
       ] = Number(event.target.textContent);
     }
     console.log(`Play Board is ${playboard}`);
+    
     selectedCell.classList.remove("selected");
     selectedCell = null;
+    
+    console.log(actions);
   }
 });
 
@@ -223,6 +220,17 @@ helpBtn.addEventListener('click', event => {
 
 newBtn.addEventListener('click', event => {
     initGame("easy");
+});
+
+undoBtn.addEventListener('click', event => {
+    if (actions.length !== 0) {
+        const lastAction = actions.pop();
+        let row = lastAction.row;
+        let col = lastAction.col;
+        let cell = board.querySelector("td[data-row=\"" + `${row}` + "\"][data-col=\"" + `${col}` + "\"]");
+        
+        cell.textContent = lastAction.old;
+    }
 });
 
 initGame("easy");
