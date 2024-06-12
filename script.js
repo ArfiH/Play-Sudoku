@@ -69,6 +69,52 @@ function displayBoard(gameBoard) {
     }
 }
 
+function isValidSudoku(playboard) {
+  function hasDuplicates(arr) {
+    const seen = new Set();
+    for (let num of arr) {
+      if (num !== 0 && seen.has(num)) {
+        return true;
+      }
+      seen.add(num);
+    }
+    return false;
+  }
+
+  for (let i = 0; i < 9; i++) {
+    if (hasDuplicates(playboard[i])) {
+      return false;
+    }
+  }
+
+  for (let i = 0; i < 9; i++) {
+    const col = [];
+    for (let j = 0; j < 9; j++) {
+      col.push(playboard[j][i]);
+    }
+    if (hasDuplicates(col)) {
+      return false;
+    }
+  }
+
+  for (let i = 0; i < 9; i += 3) {
+    for (let j = 0; j < 9; j += 3) {
+      const grid = [];
+      for (let k = 0; k < 3; k++) {
+        for (let l = 0; l < 3; l++) {
+          grid.push(playboard[i + k][j + l]);
+        }
+      }
+      if (hasDuplicates(grid)) {
+        return false;
+      }
+    }
+  }
+
+  return true;
+}
+
+
 board.addEventListener("click", (event) => {
   if (
     event.target.tagName === "TD" &&
@@ -146,31 +192,20 @@ dialPad.addEventListener("click", (event) => {
   }
 });
 
+
 checkBtn.addEventListener("click", () => {
   let correct = true;
-  if (playboard.length != solutionBoard.length) {
-    correct = false;
-  } else {
-    for (let i = 0; i < 9; i++) {
-        for(let j = 0; j < 9; j++) {
-          if (playboard[i][j] !== solutionBoard[i][j]) {
-            correct = false;
-            break;
-          }
-        }
-    }
-  }
-
+  
+  correct = isValidSudoku(playboard);
   if (correct) {
-    console.log("You won!");
-    document.querySelector('.status').innerHTML = "You Won!";
+    document.querySelector('.status').innerHTML = "You won!";  
   } else {
-    console.log("You Lost!");
-    document.querySelector('.status').innerHTML = 'Incorrect!<br>Try again';
-    setTimeout(() => {
-      document.querySelector('.status').innerHTML =     "";
-    }, 1000);
+      document.querySelector('.status').innerHTML = "Incorrect";
   }
+  setTimeout(() => {
+    document.querySelector('.status').innerHTML = "";
+  }, 1000);
+  
   console.log(playboard)
 });
 
