@@ -22,7 +22,7 @@ async function fetchBoard(difficulty) {
     console.log(solutionBoard);
     
     if (data.newboard.grids[0].difficulty == "Hard") {
-        helpCount.innerHTML = 15;
+        helpCount.innerHTML = 75;
     } else if (data.newboard.grids[0].difficulty == "Medium") {
         helpCount.innerHTML = 10;
     } else {
@@ -73,7 +73,7 @@ function isValidSudoku(playboard) {
   function hasDuplicates(arr) {
     const seen = new Set();
     for (let num of arr) {
-      if (num !== 0 && seen.has(num)) {
+      if (num == 0 || seen.has(num)) {
         return true;
       }
       seen.add(num);
@@ -94,20 +94,6 @@ function isValidSudoku(playboard) {
     }
     if (hasDuplicates(col)) {
       return false;
-    }
-  }
-
-  for (let i = 0; i < 9; i += 3) {
-    for (let j = 0; j < 9; j += 3) {
-      const grid = [];
-      for (let k = 0; k < 3; k++) {
-        for (let l = 0; l < 3; l++) {
-          grid.push(playboard[i + k][j + l]);
-        }
-      }
-      if (hasDuplicates(grid)) {
-        return false;
-      }
     }
   }
 
