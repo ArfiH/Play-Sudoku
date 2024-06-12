@@ -160,7 +160,7 @@ board.addEventListener("keydown", (event) => {
 dialPad.addEventListener("click", (event) => {
   if (selectedCell && event.target.tagName === "BUTTON") {
     
-    if (event.target.textContent === 'Clear') {
+    if (event.target.textContent === '◀') {
       selectedCell.textContent = '';
       playboard[selectedCell.getAttribute("data-row")][
         selectedCell.getAttribute("data-col")
