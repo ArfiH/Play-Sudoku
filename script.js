@@ -216,6 +216,9 @@ helpBtn.addEventListener('click', event => {
   playboard[selectedCell.getAttribute("data-row")][
         selectedCell.getAttribute("data-col")
       ] = reveal[0].val;
+  
+  selectedCell.classList.remove("editable");
+  selectedCell.style.backgroundColor = grayColor;
 });
 
 newBtn.addEventListener('click', event => {
