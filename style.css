@@ -132,6 +132,17 @@ button {
   animation: shake 200ms linear;
 }
 
+.btns {
+  display: flex;
+  justify-content: center;
+  margin-top: 1rem;
+}
+
+.btns button {
+  padding: 1rem 1rem;
+  margin: 0.2rem 0.1rem;
+}
+
 @keyframes shake {
   0% {
     transform: translateX(5px);
@@ -194,16 +205,5 @@ dialog::backdrop {
 
   .dial-pad button[title="Undo"] {
     padding: 2.5rem 1.7rem;
-  }
-  
-  .btns {
-    display: flex;
-    justify-content: center;
-    margin-top: 1rem;
-  }
-  
-  .btns button {
-    padding: 1rem 1rem;
-    margin: 0.2rem 0.1rem;
   }
 }
