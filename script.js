@@ -1,13 +1,12 @@
 const board = document.querySelector(".board");
-const checkBtn = document.querySelector(".check-btn");
 const helpBtn = document.querySelector(".help-btn");
 const dialPad = document.querySelector(".dial-pad");
 const undoBtn = document.querySelector(".undo-btn");
 const dialog = document.querySelector("dialog");
 const closeButton = document.querySelector("dialog button");
 const chooseDifficulty = document.querySelector(".choose-difficulty");
-const helpCount = document.querySelector('.help-count');
-const newBtn = document.querySelector('.new-btn');
+const helpCount = document.querySelector(".help-count");
+const newBtn = document.querySelector(".new-btn");
 
 let selectedCell = null;
 let playboard = [];
@@ -26,9 +25,9 @@ async function fetchBoard(difficulty) {
     solutionBoard = [...data.newboard.grids[0].solution];
     console.log(data.newboard.grids[0].difficulty);
     console.log(solutionBoard);
-    
-    helpCount.innerHTML = 5;
-    
+
+    helpCount.innerHTML = 75;
+
     return data.newboard.grids[0];
   } catch (error) {
     console.error("Error:", error);
@@ -40,49 +39,48 @@ async function initGame(difficulty) {
   selectedCell = null;
   playboard = [];
   solutionBoard = [];
-  board.innerHTML = '';
-  helpBtn.classList.remove('shake');
-  
+  board.innerHTML = "";
+  helpBtn.classList.remove("shake");
+
   await fetchBoard(difficulty).then((gameBoard) => {
     displayBoard(gameBoard, difficulty);
   });
 }
 
 function displayBoard(gameBoard, wantedDifficulty) {
-  board.innerHTML = '';
+  board.innerHTML = "";
   let difficulty = gameBoard.difficulty;
-  
+
   gameBoard = gameBoard.value;
 
   for (let i = 0; i < gameBoard.length; i++) {
-      const row = document.createElement("tr");
-      for (let j = 0; j < gameBoard[i].length; j++) {
-        const cell = document.createElement("td");
-        cell.setAttribute("data-row", `${i}`);
-        cell.setAttribute("data-col", `${j}`);
-        if (gameBoard[i][j] === 0) {
-          cell.textContent = "";
-          cell.classList.add("editable");
-        } else {
-          cell.textContent = gameBoard[i][j];
-          cell.style.backgroundColor = grayColor;
-        }
-        row.appendChild(cell);
+    const row = document.createElement("tr");
+    for (let j = 0; j < gameBoard[i].length; j++) {
+      const cell = document.createElement("td");
+      cell.setAttribute("data-row", `${i}`);
+      cell.setAttribute("data-col", `${j}`);
+      if (gameBoard[i][j] === 0) {
+        cell.textContent = "";
+        cell.classList.add("editable");
+      } else {
+        cell.textContent = gameBoard[i][j];
+        cell.style.backgroundColor = grayColor;
       }
-      board.appendChild(row);
+      row.appendChild(cell);
     }
-    if (wantedDifficulty === "Easy") {
-        if (difficulty === "Hard") {
-            revealCells(15);
-        } else if (difficulty === "Medium") {
-            revealCells(10);
-        }
+    board.appendChild(row);
+  }
+  if (wantedDifficulty === "Easy") {
+    if (difficulty === "Hard") {
+      revealCells(15);
+    } else if (difficulty === "Medium") {
+      revealCells(10);
     }
-    else if (wantedDifficulty === "Medium") {
-        if (difficulty === "Hard") {
-            revealCells(10);
-        }
+  } else if (wantedDifficulty === "Medium") {
+    if (difficulty === "Hard") {
+      revealCells(10);
     }
+  }
 }
 
 function isValidSudoku(playboard) {
@@ -121,25 +119,59 @@ function revealCells(num) {
   for (let i = 0; i < 9; i++) {
     for (let j = 0; j < 9; j++) {
       if (playboard[i][j] !== solutionBoard[i][j]) {
-        diff.push({row: i, col: j, val: solutionBoard[i][j]});
+        diff.push({ row: i, col: j, val: solutionBoard[i][j] });
       }
     }
   }
-  
+
   for (let i = 0; i < num && diff.length > 0; i++) {
-      let randomIndex = Math.floor(Math.random()*diff.length);
-      let reveal = diff.splice(randomIndex, 1);
-      console.log(reveal);
-     
-      selectedCell = board.querySelector("td[data-row=\"" + `${reveal[0].row}` + "\"][data-col=\"" + `${reveal[0].col}` + "\"]");
-      selectedCell.textContent = reveal[0].val;
-      playboard[selectedCell.getAttribute("data-row")][
-            selectedCell.getAttribute("data-col")
-          ] = reveal[0].val;
-      
-      selectedCell.classList.remove("editable");
-      selectedCell.style.backgroundColor = grayColor;
+    let randomIndex = Math.floor(Math.random() * diff.length);
+    let reveal = diff.splice(randomIndex, 1);
+    console.log(reveal);
+
+    selectedCell = board.querySelector(
+      'td[data-row="' +
+        `${reveal[0].row}` +
+        '"][data-col="' +
+        `${reveal[0].col}` +
+        '"]'
+    );
+    selectedCell.textContent = reveal[0].val;
+    playboard[selectedCell.getAttribute("data-row")][
+      selectedCell.getAttribute("data-col")
+    ] = reveal[0].val;
+
+    selectedCell.classList.remove("editable");
+    selectedCell.style.backgroundColor = grayColor;
+  }
+}
+
+function gameStatus() {
+  let filled = true;
+  outer: for (let i = 0; i < 9; i++) {
+    for (let j = 0; j < 9; j++) {
+      if (playboard[i][j] === 0) {
+        filled = false;
+        break outer;
       }
+    }
+  }
+  if (filled) {
+    let correct = true;
+
+    correct = isValidSudoku(playboard);
+    if (correct) {
+      document.querySelector(".status").innerHTML = "You won!";
+      setTimeout(() => {
+        newBtn.click();
+      }, 1000);
+    } else {
+      document.querySelector(".status").innerHTML = "Incorrect";
+    }
+    setTimeout(() => {
+      document.querySelector(".status").innerHTML = "";
+    }, 2000);
+  }
 }
 
 board.addEventListener("click", (event) => {
@@ -154,29 +186,35 @@ board.addEventListener("click", (event) => {
     selectedCell = event.target;
     selectedCell.classList.add("selected");
     //selectedCell.contentEditable = true;
-    //selectedCell.focus();    
+    //selectedCell.focus();
     //selectedCell.tabIndex = 0;
-    
+
     // remove previous selection
     for (let i = 0; i < 9; i++) {
       for (let j = 0; j < 9; j++) {
-        const cell = board.querySelector("td[data-row=\""+`${i}`+"\"][data-col=\""+`${j}`+"\"]");
+        const cell = board.querySelector(
+          'td[data-row="' + `${i}` + '"][data-col="' + `${j}` + '"]'
+        );
         cell.style.backgroundColor = "white";
         if (!cell.classList.contains("editable")) {
           cell.style.backgroundColor = grayColor;
         }
       }
     }
-    
-    const rowLine = board.querySelectorAll("td[data-row=\""+`${selectedCell.getAttribute('data-row')}`+"\"]");
-    const colLine = board.querySelectorAll("td[data-col=\""+`${selectedCell.getAttribute('data-col')}`+"\"]");
-    rowLine.forEach(cell => {
+
+    const rowLine = board.querySelectorAll(
+      'td[data-row="' + `${selectedCell.getAttribute("data-row")}` + '"]'
+    );
+    const colLine = board.querySelectorAll(
+      'td[data-col="' + `${selectedCell.getAttribute("data-col")}` + '"]'
+    );
+    rowLine.forEach((cell) => {
       cell.style.backgroundColor = selectedGroupColor;
       if (!cell.classList.contains("editable")) {
         cell.style.backgroundColor = grayColor;
       }
     });
-    colLine.forEach(cell => {
+    colLine.forEach((cell) => {
       cell.style.backgroundColor = selectedGroupColor;
       if (!cell.classList.contains("editable")) {
         cell.style.backgroundColor = grayColor;
@@ -185,37 +223,45 @@ board.addEventListener("click", (event) => {
   }
 });
 
-
 dialPad.addEventListener("click", (event) => {
   if (selectedCell && event.target.tagName === "BUTTON") {
-    
     // update actions array
-    actions.push({row: selectedCell.getAttribute("data-row"), col: selectedCell.getAttribute("data-col"), old: selectedCell.textContent});
-    
-    if (event.target.textContent === '◀') {
-      selectedCell.textContent = '';
+    actions.push({
+      row: selectedCell.getAttribute("data-row"),
+      col: selectedCell.getAttribute("data-col"),
+      old: selectedCell.textContent,
+    });
+
+    if (event.target.textContent === "⌫") {
+      selectedCell.textContent = "";
       playboard[selectedCell.getAttribute("data-row")][
         selectedCell.getAttribute("data-col")
       ] = 0;
-    }
-    else if (event.target.textContent !== '↩') {
+    } else if (event.target.textContent !== "↩") {
       selectedCell.textContent = event.target.textContent;
       playboard[selectedCell.getAttribute("data-row")][
         selectedCell.getAttribute("data-col")
       ] = Number(event.target.textContent);
+
+      // check game status if all cells are filled
+      gameStatus();
     }
     console.log(`Play Board is ${playboard}`);
-    
+
     // remove selected cell's row and col color
-    const rowLine = board.querySelectorAll("td[data-row=\""+`${selectedCell.getAttribute('data-row')}`+"\"]");
-    const colLine = board.querySelectorAll("td[data-col=\""+`${selectedCell.getAttribute('data-col')}`+"\"]");
-    rowLine.forEach(cell => {
+    const rowLine = board.querySelectorAll(
+      'td[data-row="' + `${selectedCell.getAttribute("data-row")}` + '"]'
+    );
+    const colLine = board.querySelectorAll(
+      'td[data-col="' + `${selectedCell.getAttribute("data-col")}` + '"]'
+    );
+    rowLine.forEach((cell) => {
       cell.style.backgroundColor = "white";
       if (!cell.classList.contains("editable")) {
         cell.style.backgroundColor = grayColor;
       }
     });
-    colLine.forEach(cell => {
+    colLine.forEach((cell) => {
       cell.style.backgroundColor = "white";
       if (!cell.classList.contains("editable")) {
         cell.style.backgroundColor = grayColor;
@@ -227,45 +273,30 @@ dialPad.addEventListener("click", (event) => {
   }
 });
 
-
-checkBtn.addEventListener("click", () => {
-  let correct = true;
-  
-  correct = isValidSudoku(playboard);
-  if (correct) {
-    document.querySelector('.status').innerHTML = "You won!";
-    newBtn.click();
-  } else {
-      document.querySelector('.status').innerHTML = "Incorrect";
-  }
-  setTimeout(() => {
-    document.querySelector('.status').innerHTML = "";
-  }, 2000);
-  
-  console.log(playboard)
-});
-
-helpBtn.addEventListener('click', event => {
+helpBtn.addEventListener("click", (event) => {
   if (Number(helpCount.innerHTML) <= 0) {
-    helpBtn.classList.toggle('shake');
+    helpBtn.classList.toggle("shake");
     return;
   }
   helpCount.innerHTML = Number(helpCount.innerHTML) - 1;
   revealCells(1);
+  gameStatus();
 });
 
-undoBtn.addEventListener('click', event => {
-    if (actions.length !== 0) {
-        const lastAction = actions.pop();
-        let row = lastAction.row;
-        let col = lastAction.col;
-        let cell = board.querySelector("td[data-row=\"" + `${row}` + "\"][data-col=\"" + `${col}` + "\"]");
-        
-        cell.textContent = lastAction.old;
-    }
+undoBtn.addEventListener("click", (event) => {
+  if (actions.length !== 0) {
+    const lastAction = actions.pop();
+    let row = lastAction.row;
+    let col = lastAction.col;
+    let cell = board.querySelector(
+      'td[data-row="' + `${row}` + '"][data-col="' + `${col}` + '"]'
+    );
+
+    cell.textContent = lastAction.old;
+  }
 });
 
-newBtn.addEventListener('click', event => {
+newBtn.addEventListener("click", (event) => {
   dialog.showModal();
 });
 
@@ -273,7 +304,7 @@ closeButton.addEventListener("click", () => {
   dialog.close();
 });
 
-chooseDifficulty.addEventListener("click", event => {
+chooseDifficulty.addEventListener("click", (event) => {
   initGame(event.target.textContent);
 });
 

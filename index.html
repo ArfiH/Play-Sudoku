@@ -14,33 +14,40 @@
     <div class="container">
       <table class="board"></table>
       <div class="dial-pad">
-        <button>1</button>
-        <button>2</button>
-        <button>3</button>
-        <button>4</button>
-        <button>5</button>
-        <button>6</button>
-        <button>7</button>
-        <button>8</button>
-        <button>9</button>
-        <button title="Backspace">◀</button>
+        <div class="row-1">
+          <button>1</button>
+          <button>2</button>
+          <button>3</button>
+        </div>
+        <div class="row-2">
+          <button>4</button>
+          <button>5</button>
+          <button>6</button>
+        </div>
+        <div class="row-3">
+          <button>7</button>
+          <button>8</button>
+          <button>9</button>
+        </div>
+        <button title="Backspace">⌫</button>
         <button class="undo-btn" title="Undo">↩</button>
       </div>
-      <div class="btns">
-        <button class="help-btn" title="Help"type="button">🔎 (<span class="help-count"></span>)</button>
-        <button class="check-btn" type="button">Check</button>
-        <dialog>
-          <button id="close-btn">✖</button>
-          <p>Choose difficulty</p>
-          <div class="choose-difficulty">
-            <button class="easy-btn">Easy</button>
-            <button class="medium-btn">Medium</button>
-            <button class="hard-btn"> Hard</button>
-          </div>
-        </dialog>
-        <button class="new-btn" type="button">New game</button>
-        <p class="status"></p>
-      </div>
+    </div>
+    <div class="btns">
+      <button class="help-btn" title="Help" type="button">
+        🔎 (<span class="help-count"></span>)
+      </button>
+      <dialog>
+        <button id="close-btn">✖</button>
+        <p>Choose difficulty</p>
+        <div class="choose-difficulty">
+          <button class="easy-btn">Easy</button>
+          <button class="medium-btn">Medium</button>
+          <button class="hard-btn">Hard</button>
+        </div>
+      </dialog>
+      <button class="new-btn" type="button">New game</button>
+      <p class="status"></p>
     </div>
   </body>
 </html>
