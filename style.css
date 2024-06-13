@@ -121,3 +121,25 @@ button {
         transform: translateY(0px);
     }
 }
+
+dialog {
+  padding: 1rem;
+  margin-inline: auto;
+  margin-top: 10rem;
+  border: none;
+  border-radius: 10px;
+}
+
+dialog::backdrop {
+  backdrop-filter: blur(8px);
+  opacity: 0.75;
+}
+
+#close-btn {
+  position: absolute;
+  right: 0;
+  top: 0;
+  margin-top: 0;
+  border: none;
+  padding: 0.2rem 0.5rem;
+}

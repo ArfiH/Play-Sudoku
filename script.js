@@ -3,6 +3,9 @@ const checkBtn = document.querySelector(".check-btn");
 const helpBtn = document.querySelector(".help-btn");
 const dialPad = document.querySelector(".dial-pad");
 const undoBtn = document.querySelector(".undo-btn");
+const dialog = document.querySelector("dialog");
+const closeButton = document.querySelector("dialog button");
+const chooseDifficulty = document.querySelector(".choose-difficulty");
 
 let selectedCell = null;
 let playboard = [];
@@ -237,10 +240,6 @@ helpBtn.addEventListener('click', event => {
   revealCells(1);
 });
 
-newBtn.addEventListener('click', event => {
-    initGame("easy");
-});
-
 undoBtn.addEventListener('click', event => {
     if (actions.length !== 0) {
         const lastAction = actions.pop();
@@ -250,6 +249,18 @@ undoBtn.addEventListener('click', event => {
         
         cell.textContent = lastAction.old;
     }
+});
+
+newBtn.addEventListener('click', event => {
+  dialog.showModal();
+});
+
+closeButton.addEventListener("click", () => {
+  dialog.close();
+});
+
+chooseDifficulty.addEventListener("click", event => {
+  initGame(event.target.textContent);
 });
 
 initGame("Easy");
