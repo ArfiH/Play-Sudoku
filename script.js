@@ -6,6 +6,8 @@ const undoBtn = document.querySelector(".undo-btn");
 const dialog = document.querySelector("dialog");
 const closeButton = document.querySelector("dialog button");
 const chooseDifficulty = document.querySelector(".choose-difficulty");
+const helpCount = document.querySelector('.help-count');
+const newBtn = document.querySelector('.new-btn');
 
 let selectedCell = null;
 let playboard = [];
@@ -13,8 +15,6 @@ let solutionBoard = [];
 let actions = [];
 const grayColor = "rgb(140, 170, 210)";
 const selectedGroupColor = "rgb(190, 210, 230)";
-const helpCount = document.querySelector('.help-count');
-const newBtn = document.querySelector('.new-btn');
 
 async function fetchBoard(difficulty) {
   try {
@@ -198,7 +198,7 @@ dialPad.addEventListener("click", (event) => {
         selectedCell.getAttribute("data-col")
       ] = 0;
     }
-    else if (event.target.textContent !== '') {
+    else if (event.target.textContent !== '↩') {
       selectedCell.textContent = event.target.textContent;
       playboard[selectedCell.getAttribute("data-row")][
         selectedCell.getAttribute("data-col")
@@ -206,10 +206,24 @@ dialPad.addEventListener("click", (event) => {
     }
     console.log(`Play Board is ${playboard}`);
     
+    // remove selected cell's row and col color
+    const rowLine = board.querySelectorAll("td[data-row=\""+`${selectedCell.getAttribute('data-row')}`+"\"]");
+    const colLine = board.querySelectorAll("td[data-col=\""+`${selectedCell.getAttribute('data-col')}`+"\"]");
+    rowLine.forEach(cell => {
+      cell.style.backgroundColor = "white";
+      if (!cell.classList.contains("editable")) {
+        cell.style.backgroundColor = grayColor;
+      }
+    });
+    colLine.forEach(cell => {
+      cell.style.backgroundColor = "white";
+      if (!cell.classList.contains("editable")) {
+        cell.style.backgroundColor = grayColor;
+      }
+    });
+
     selectedCell.classList.remove("selected");
     selectedCell = null;
-    
-    console.log(actions);
   }
 });
 
@@ -220,7 +234,7 @@ checkBtn.addEventListener("click", () => {
   correct = isValidSudoku(playboard);
   if (correct) {
     document.querySelector('.status').innerHTML = "You won!";
-    setTimeout(() => initGame("easy"), 2100);    
+    newBtn.click();
   } else {
       document.querySelector('.status').innerHTML = "Incorrect";
   }
