@@ -15,6 +15,7 @@
 ❓ Help Button: Stuck on a puzzle? Use the help button to reveal a cell's value.
 
 🔄 New Game: Start fresh with a new puzzle at any time.
+
 ✔️ Real-Time Feedback: Get immediate feedback on the correctness of your 
 puzzle.
 <br>
