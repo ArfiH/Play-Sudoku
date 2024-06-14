@@ -97,6 +97,7 @@ button {
 
 .dial-pad button:last-child {
   margin-right: 0.3rem;
+  margin-bottom: 0.1rem;
 }
 
 .dial-pad button:hover {
@@ -117,7 +118,6 @@ button {
 
 .btns p {
   text-align: center;
-  max-resolution: resize: ;: 1rem;
   display: block;
   font-weight: bold;
   font-size: 24px;
@@ -205,5 +205,24 @@ dialog::backdrop {
 
   .dial-pad button[title="Undo"] {
     padding: 2.5rem 1.7rem;
+  }
+}
+
+@media (max-width: 380px) {
+  .board {
+    width: 310px;
+  }
+
+  .dial-pad {
+    flex-wrap: wrap;
+    max-width: 290px;
+    justify-content: center;
+  }
+  .dial-pad button {
+    margin: 0.3rem 0.1rem;
+  }
+
+  .dial-pad button[title="Backspace"] {
+    padding: 0.3rem 0.3rem 0.5rem;
   }
 }

@@ -16,6 +16,8 @@
 
 🔄 New Game: Start fresh with a new puzzle at any time.
 
+📂 Local Storage: Your progress is saved locally, so you can pick up where you left off anytime.
+
 ✔️ Real-Time Feedback: Get immediate feedback on the correctness of your 
 puzzle.
 <br>
@@ -37,7 +39,6 @@ puzzle.
 - Start a New Game: Click the new game button to start a fresh puzzle.
 
 
+Github Link: https://github.com/ArfiH/Play-Sudoku/ <br>
+Live website: https://play-sudoku-hazel.vercel.app/
 ### Md Mouzam Arfi Hussain - arfihussain27@gmail.com
-
-### Github Link: https://github.com/ArfiH/Play-Sudoku/ <br>
-### Live website: https://play-sudoku-hazel.vercel.app/
