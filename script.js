@@ -6,13 +6,13 @@ const dialog = document.querySelector("dialog");
 const closeButton = document.querySelector("dialog button");
 const chooseDifficulty = document.querySelector(".choose-difficulty");
 const helpCount = document.querySelector(".help-count");
+let helpLeft = localStorage.getItem('helpCount') ? JSON.parse(localStorage.getItem('helpCount')) : 5;
 const newBtn = document.querySelector(".new-btn");
 
 let selectedCell = null;
 let playboard = localStorage.getItem('playboard') ? JSON.parse(localStorage.getItem('playboard')) : []; 
-
 let solutionBoard = localStorage.getItem('solutionBoard') ? JSON.parse(localStorage.getItem('solutionBoard')) : [];
-let difficulty = "easy";
+let difficulty = localStorage.getItem('difficulty') ? JSON.parse(localStorage.getItem('difficulty')) : "easy";
 let actions = [];
 const grayColor = "rgb(140, 170, 210)";
 const selectedGroupColor = "rgb(190, 210, 230)";
@@ -33,6 +33,7 @@ async function fetchBoard(difficulty) {
     console.log(solutionBoard);
 
     helpCount.innerHTML = 75;
+    localStorage.setItem('helpCount', JSON.stringify(helpCount.innerHTML));
 
     return data.newboard.grids[0];
   } catch (error) {
@@ -59,9 +60,9 @@ function displayBoard(gameBoard, wantedDifficulty) {
 
   gameBoard = gameBoard.value;
 
-  for (let i = 0; i < gameBoard.length; i++) {
+  for (let i = 0; i < 9; i++) {
     const row = document.createElement("tr");
-    for (let j = 0; j < gameBoard[i].length; j++) {
+    for (let j = 0; j < 9; j++) {
       const cell = document.createElement("td");
       cell.setAttribute("data-row", `${i}`);
       cell.setAttribute("data-col", `${j}`);
@@ -69,8 +70,10 @@ function displayBoard(gameBoard, wantedDifficulty) {
         cell.textContent = "";
         cell.classList.add("editable");
       } else {
-        cell.textContent = gameBoard[i][j];
-        cell.style.backgroundColor = grayColor;
+        cell.textContent = Math.abs(gameBoard[i][j]);
+        if (!cell.classList.contains("editable")) {
+          cell.style.backgroundColor = grayColor;
+        }
       }
       row.appendChild(cell);
     }
@@ -133,7 +136,7 @@ function revealCells(num) {
   for (let i = 0; i < num && diff.length > 0; i++) {
     let randomIndex = Math.floor(Math.random() * diff.length);
     let reveal = diff.splice(randomIndex, 1);
-    console.log(reveal);
+    // console.log(reveal);
 
     selectedCell = board.querySelector(
       'td[data-row="' +
@@ -146,7 +149,7 @@ function revealCells(num) {
     playboard[selectedCell.getAttribute("data-row")][
       selectedCell.getAttribute("data-col")
     ] = reveal[0].val;
-
+    localStorage.setItem('playboard', JSON.stringify(playboard));
     selectedCell.classList.remove("editable");
     selectedCell.style.backgroundColor = grayColor;
   }
@@ -247,11 +250,12 @@ dialPad.addEventListener("click", (event) => {
       selectedCell.textContent = event.target.textContent;
       playboard[selectedCell.getAttribute("data-row")][
         selectedCell.getAttribute("data-col")
-      ] = Number(event.target.textContent);
-
+      ] = -1 * Number(event.target.textContent);
+      selectedCell.classList.add("editable");
       // check game status if all cells are filled
       gameStatus();
     }
+    localStorage.setItem('playboard', JSON.stringify(playboard));
     console.log(`Play Board is ${playboard}`);
 
     // remove selected cell's row and col color
@@ -285,6 +289,7 @@ helpBtn.addEventListener("click", (event) => {
     return;
   }
   helpCount.innerHTML = Number(helpCount.innerHTML) - 1;
+  localStorage.setItem('helpCount', JSON.stringify(helpCount.innerHTML));
   revealCells(1);
   gameStatus();
 });
@@ -299,6 +304,7 @@ undoBtn.addEventListener("click", (event) => {
     );
 
     cell.textContent = lastAction.old;
+    playboard[row][col] = 0;
   }
 });
 
@@ -313,7 +319,13 @@ closeButton.addEventListener("click", () => {
 chooseDifficulty.addEventListener("click", (event) => {
   localStorage.clear();
   initGame(event.target.textContent);
+  dialog.close();
 });
 
-
+if (playboard.length === 0) {
   initGame("Easy");
+} else {
+  selectedCell = null;
+  helpCount.innerHTML = JSON.parse(localStorage.getItem('helpCount'));
+  displayBoard({value: playboard, difficulty: difficulty}, "Easy"); 
+}
