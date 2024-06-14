@@ -26,7 +26,7 @@ async function fetchBoard(difficulty) {
     console.log(data.newboard.grids[0].difficulty);
     console.log(solutionBoard);
 
-    helpCount.innerHTML = 75;
+    helpCount.innerHTML = 5;
 
     return data.newboard.grids[0];
   } catch (error) {
