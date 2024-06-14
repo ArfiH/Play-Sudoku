@@ -8,6 +8,7 @@ const chooseDifficulty = document.querySelector(".choose-difficulty");
 const helpCount = document.querySelector(".help-count");
 let helpLeft = localStorage.getItem('helpCount') ? JSON.parse(localStorage.getItem('helpCount')) : 5;
 const newBtn = document.querySelector(".new-btn");
+const gameResult = document.querySelector(".game-result");
 
 let selectedCell = null;
 let playboard = localStorage.getItem('playboard') ? JSON.parse(localStorage.getItem('playboard')) : []; 
@@ -171,6 +172,8 @@ function gameStatus() {
     correct = isValidSudoku(playboard);
     if (correct) {
       document.querySelector(".status").innerHTML = "You won!";
+      gameResult.showModal();
+      
       setTimeout(() => {
         newBtn.click();
       }, 1000);
@@ -309,6 +312,7 @@ undoBtn.addEventListener("click", (event) => {
 });
 
 newBtn.addEventListener("click", (event) => {
+  gameResult.close();
   dialog.showModal();
 });
 
