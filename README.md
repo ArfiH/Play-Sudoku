@@ -40,5 +40,5 @@ puzzle.
 
 
 Github Link: https://github.com/ArfiH/Play-Sudoku/ <br>
-Live website: https://play-sudoku-hazel.vercel.app/
+Live website: https://arfih.github.io/Play-Sudoku/
 ### Md Mouzam Arfi Hussain - arfihussain27@gmail.com
