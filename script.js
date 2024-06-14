@@ -7,6 +7,7 @@ const closeButton = document.querySelector("dialog button");
 const chooseDifficulty = document.querySelector(".choose-difficulty");
 const helpCount = document.querySelector(".help-count");
 const newBtn = document.querySelector(".new-btn");
+const gameResult = document.querySelector(".game-result");
 
 let selectedCell = null;
 let playboard = [];
@@ -26,7 +27,7 @@ async function fetchBoard(difficulty) {
     console.log(data.newboard.grids[0].difficulty);
     console.log(solutionBoard);
 
-    helpCount.innerHTML = 5;
+    helpCount.innerHTML = 75;
 
     return data.newboard.grids[0];
   } catch (error) {
@@ -162,6 +163,8 @@ function gameStatus() {
     correct = isValidSudoku(playboard);
     if (correct) {
       document.querySelector(".status").innerHTML = "You won!";
+      gameResult.showModal();
+      
       setTimeout(() => {
         newBtn.click();
       }, 1000);
@@ -297,6 +300,7 @@ undoBtn.addEventListener("click", (event) => {
 });
 
 newBtn.addEventListener("click", (event) => {
+  gameResult.close();
   dialog.showModal();
 });
 
@@ -306,6 +310,7 @@ closeButton.addEventListener("click", () => {
 
 chooseDifficulty.addEventListener("click", (event) => {
   initGame(event.target.textContent);
+  dialog.close();
 });
 
 initGame("Easy");
