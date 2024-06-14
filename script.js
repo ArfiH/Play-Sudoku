@@ -9,8 +9,10 @@ const helpCount = document.querySelector(".help-count");
 const newBtn = document.querySelector(".new-btn");
 
 let selectedCell = null;
-let playboard = [];
-let solutionBoard = [];
+let playboard = localStorage.getItem('playboard') ? JSON.parse(localStorage.getItem('playboard')) : []; 
+
+let solutionBoard = localStorage.getItem('solutionBoard') ? JSON.parse(localStorage.getItem('solutionBoard')) : [];
+let difficulty = "easy";
 let actions = [];
 const grayColor = "rgb(140, 170, 210)";
 const selectedGroupColor = "rgb(190, 210, 230)";
@@ -22,7 +24,11 @@ async function fetchBoard(difficulty) {
     );
     const data = await response.json();
     playboard = [...data.newboard.grids[0].value];
+    localStorage.setItem('playboard', JSON.stringify(playboard));
+
     solutionBoard = [...data.newboard.grids[0].solution];
+    localStorage.setItem('solutionBoard', JSON.stringify(solutionBoard));
+
     console.log(data.newboard.grids[0].difficulty);
     console.log(solutionBoard);
 
@@ -49,7 +55,7 @@ async function initGame(difficulty) {
 
 function displayBoard(gameBoard, wantedDifficulty) {
   board.innerHTML = "";
-  let difficulty = gameBoard.difficulty;
+  difficulty = gameBoard.difficulty;
 
   gameBoard = gameBoard.value;
 
@@ -305,7 +311,9 @@ closeButton.addEventListener("click", () => {
 });
 
 chooseDifficulty.addEventListener("click", (event) => {
+  localStorage.clear();
   initGame(event.target.textContent);
 });
 
-initGame("Easy");
+
+  initGame("Easy");
