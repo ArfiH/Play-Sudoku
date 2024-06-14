@@ -71,8 +71,11 @@ function displayBoard(gameBoard, wantedDifficulty) {
         cell.textContent = "";
         cell.classList.add("editable");
       } else {
-        cell.textContent = Math.abs(gameBoard[i][j]);
-        if (!cell.classList.contains("editable")) {
+        if (Number(gameBoard[i][j]) < 0) {
+          cell.textContent = Math.abs(gameBoard[i][j]);
+          cell.classList.add("editable");
+        } else {
+          cell.textContent = gameBoard[i][j];
           cell.style.backgroundColor = grayColor;
         }
       }
@@ -254,7 +257,6 @@ dialPad.addEventListener("click", (event) => {
       playboard[selectedCell.getAttribute("data-row")][
         selectedCell.getAttribute("data-col")
       ] = -1 * Number(event.target.textContent);
-      selectedCell.classList.add("editable");
       // check game status if all cells are filled
       gameStatus();
     }
@@ -308,6 +310,7 @@ undoBtn.addEventListener("click", (event) => {
 
     cell.textContent = lastAction.old;
     playboard[row][col] = 0;
+    localStorage.setItem('playboard', JSON.stringify(playboard));
   }
 });
 
