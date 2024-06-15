@@ -33,7 +33,7 @@ async function fetchBoard(difficulty) {
     console.log(data.newboard.grids[0].difficulty);
     console.log(solutionBoard);
 
-    helpCount.innerHTML = 75;
+    helpCount.innerHTML = 5;
     localStorage.setItem('helpCount', JSON.stringify(helpCount.innerHTML));
 
     return data.newboard.grids[0];
