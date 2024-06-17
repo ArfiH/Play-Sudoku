@@ -6,9 +6,16 @@ const dialog = document.querySelector("dialog");
 const closeButton = document.querySelector("dialog button");
 const chooseDifficulty = document.querySelector(".choose-difficulty");
 const helpCount = document.querySelector(".help-count");
-let helpLeft = localStorage.getItem('helpCount') ? JSON.parse(localStorage.getItem('helpCount')) : 5;
 const newBtn = document.querySelector(".new-btn");
 const gameResult = document.querySelector(".game-result");
+const hourSpan = document.querySelector(".hour");
+const minSpan = document.querySelector(".min");
+const secSpan = document.querySelector(".sec");
+
+let hour = localStorage.getItem('hour') ? JSON.parse(localStorage.getItem('hour')) : 0;
+let min = localStorage.getItem('min') ? JSON.parse(localStorage.getItem('min')) : 0;
+let sec = localStorage.getItem('sec') ? JSON.parse(localStorage.getItem('sec')) : 0;
+let helpLeft = localStorage.getItem('helpCount') ? JSON.parse(localStorage.getItem('helpCount')) : 5;
 
 let selectedCell = null;
 let playboard = localStorage.getItem('playboard') ? JSON.parse(localStorage.getItem('playboard')) : []; 
@@ -43,12 +50,15 @@ async function fetchBoard(difficulty) {
 }
 
 async function initGame(difficulty) {
-  // reset board and solution and game status
+  // reset board and solution, timer and game status
   selectedCell = null;
   playboard = [];
   solutionBoard = [];
   board.innerHTML = "";
   helpBtn.classList.remove("shake");
+  
+  // reset timer
+  sec = 0;
 
   await fetchBoard(difficulty).then((gameBoard) => {
     displayBoard(gameBoard, difficulty);
@@ -336,3 +346,23 @@ if (playboard.length === 0) {
   helpCount.innerHTML = JSON.parse(localStorage.getItem('helpCount'));
   displayBoard({value: playboard, difficulty: difficulty}, "Easy"); 
 }
+
+setInterval(() => {
+  sec++;
+  if (sec > 59) {
+    sec = 0;
+    min++;
+  }
+  if (min > 59) {
+    min = 0;
+    hour++;
+  }
+
+  localStorage.setItem('hour', JSON.stringify(hour));
+  localStorage.setItem('min', JSON.stringify(min));
+  localStorage.setItem('sec', JSON.stringify(sec));
+  hourSpan.textContent = hour > 9 ? hour : '0' + hour;
+  minSpan.textContent = min > 9 ? min : '0' + min;
+  secSpan.textContent = sec > 9 ? sec : '0' + sec;
+}, 1000)
+
