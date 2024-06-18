@@ -8,6 +8,7 @@ const chooseDifficulty = document.querySelector(".choose-difficulty");
 const helpCount = document.querySelector(".help-count");
 const newBtn = document.querySelector(".new-btn");
 const gameResult = document.querySelector(".game-result");
+const timer = document.querySelector('.timer');
 const hourSpan = document.querySelector(".hour");
 const minSpan = document.querySelector(".min");
 const secSpan = document.querySelector(".sec");
@@ -16,7 +17,6 @@ let hour = localStorage.getItem('hour') ? JSON.parse(localStorage.getItem('hour'
 let min = localStorage.getItem('min') ? JSON.parse(localStorage.getItem('min')) : 0;
 let sec = localStorage.getItem('sec') ? JSON.parse(localStorage.getItem('sec')) : 0;
 let helpLeft = localStorage.getItem('helpCount') ? JSON.parse(localStorage.getItem('helpCount')) : 5;
-
 let selectedCell = null;
 let playboard = localStorage.getItem('playboard') ? JSON.parse(localStorage.getItem('playboard')) : []; 
 let solutionBoard = localStorage.getItem('solutionBoard') ? JSON.parse(localStorage.getItem('solutionBoard')) : [];
@@ -40,7 +40,7 @@ async function fetchBoard(difficulty) {
     console.log(data.newboard.grids[0].difficulty);
     console.log(solutionBoard);
 
-    helpCount.innerHTML = 5;
+    helpCount.innerHTML = 75;
     localStorage.setItem('helpCount', JSON.stringify(helpCount.innerHTML));
 
     return data.newboard.grids[0];
@@ -186,12 +186,12 @@ function gameStatus() {
 
     correct = isValidSudoku(playboard);
     if (correct) {
-      document.querySelector(".status").innerHTML = "You won!";
+      document.querySelector(".status").innerHTML = `You won in ` + timer.textContent;
       gameResult.showModal();
       
       setTimeout(() => {
         newBtn.click();
-      }, 1000);
+      }, 2000);
     } else {
       document.querySelector(".status").innerHTML = "Incorrect";
     }
