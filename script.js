@@ -59,6 +59,8 @@ async function initGame(difficulty) {
   
   // reset timer
   sec = 0;
+  min = 0;
+  hour = 0;
 
   await fetchBoard(difficulty).then((gameBoard) => {
     displayBoard(gameBoard, difficulty);
@@ -257,12 +259,14 @@ dialPad.addEventListener("click", (event) => {
       old: selectedCell.textContent,
     });
 
+    if(event.target.title === "Help")
+      console.log(event);
     if (event.target.textContent === "⌫") {
       selectedCell.textContent = "";
       playboard[selectedCell.getAttribute("data-row")][
         selectedCell.getAttribute("data-col")
       ] = 0;
-    } else if (event.target.textContent !== "↩") {
+    } else if (event.target.textContent !== "↩" && event.target.title !== "Help") {
       selectedCell.textContent = event.target.textContent;
       playboard[selectedCell.getAttribute("data-row")][
         selectedCell.getAttribute("data-col")

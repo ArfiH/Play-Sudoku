@@ -92,21 +92,10 @@ button {
   border: 1px solid rgb(180, 198, 224);
   cursor: pointer;
   transition: background-color 0.3s;
-}
-
-.dial-pad button[title="Undo"] {
-  font-size: 14px;
-  height: 31px;
-  margin-left: 0.3rem;
-}
-
-.dial-pad button[title="Backspace"] {
-  font-size: 14px;
-  height: 31px;
+  padding: 0.7rem;
 }
 
 .dial-pad button:last-child {
-  margin-right: 0.3rem;
   margin-bottom: 0.1rem;
 }
 
@@ -136,6 +125,7 @@ button {
 
 .help-btn {
   font-size: 20px;
+  position: relative;
 }
 
 .help-btn.shake:hover {
@@ -151,6 +141,20 @@ button {
 .btns button {
   padding: 1rem 1rem;
   margin: 0.2rem 0.1rem;
+}
+
+.help-count {
+  color: white;
+}
+
+.help-wrapper {
+  font-size: 0.85rem;
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  border-radius: 50%;
+  background-color: rgb(60, 80, 180);
+  padding: 0.05rem 0.3rem;
 }
 
 @keyframes shake {
@@ -187,6 +191,20 @@ dialog::backdrop {
   padding: 0.2rem 0.3rem;
 }
 
+.dial-pad {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 0.3rem;
+}
+
+.row-1 {
+  justify-self: end;
+}
+
+.row-3 {
+  justify-self: end;
+}
+
 @media (min-width: 700px) {
   .container {
     display: flex;
@@ -205,34 +223,24 @@ dialog::backdrop {
   }
 
   .dial-pad button {
-    padding: 1.8rem 1.8rem;
-    margin: 0.2rem 0.1rem;
+    padding: 1rem 2.2rem;
   }
 
-  .dial-pad button[title="Backspace"] {
-    padding: 2.5rem 1.6rem;
-  }
-
-  .dial-pad button[title="Undo"] {
-    padding: 2.5rem 1.7rem;
+  #help-btn {
+    padding: 1rem 1rem;
   }
 }
 
-@media (max-width: 380px) {
+@media (max-width: 360px) {
   .board {
     width: 310px;
   }
 
   .dial-pad {
-    flex-wrap: wrap;
-    max-width: 290px;
-    justify-content: center;
-  }
-  .dial-pad button {
-    margin: 0.3rem 0.1rem;
+    width: 310px;
   }
 
-  .dial-pad button[title="Backspace"] {
-    padding: 0.3rem 0.3rem 0.5rem;
+  .dial-pad button {
+    padding: 0.4rem 0.5rem;
   }
 }
