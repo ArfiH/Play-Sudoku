@@ -151,7 +151,7 @@ button {
   font-size: 0.85rem;
   position: absolute;
   top: 10px;
-  right: 10px;
+  right: 34px;
   border-radius: 50%;
   background-color: rgb(60, 80, 180);
   padding: 0.05rem 0.3rem;
@@ -226,8 +226,20 @@ dialog::backdrop {
     padding: 1rem 2.2rem;
   }
 
+  .dial-pad button[title="Backspace"] {
+    padding: 1rem 1.75rem;
+  }
+
+  .dial-pad button[title="Undo"] {
+    padding: 1rem 2rem;
+  }
+
   #help-btn {
-    padding: 1rem 1rem;
+    padding: 1rem 1.7rem;
+  }
+
+  .help-wrapper {
+    right: 20px;
   }
 }
 
