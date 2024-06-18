@@ -40,7 +40,7 @@ async function fetchBoard(difficulty) {
     console.log(data.newboard.grids[0].difficulty);
     console.log(solutionBoard);
 
-    helpCount.innerHTML = 75;
+    helpCount.innerHTML = 5;
     localStorage.setItem('helpCount', JSON.stringify(helpCount.innerHTML));
 
     return data.newboard.grids[0];
@@ -186,7 +186,7 @@ function gameStatus() {
 
     correct = isValidSudoku(playboard);
     if (correct) {
-      document.querySelector(".status").innerHTML = `You won in ` + timer.textContent;
+      document.querySelector(".status").innerHTML = `Solved in ` + timer.textContent;
       gameResult.showModal();
       
       setTimeout(() => {
